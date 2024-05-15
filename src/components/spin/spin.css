@@ -1,0 +1,20 @@
+.Container {
+    width: 50px;
+    height: 150px;
+    overflow: hidden;
+}
+
+.Content {
+    display: flex;
+    flex-direction: column;
+    animation: roll 5s linear;
+}
+
+@keyframes roll {
+    0% {
+        transform: translateY(-450px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
