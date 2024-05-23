@@ -1,20 +1,32 @@
 .Container {
-    width: 50px;
-    height: 150px;
+    display: flex;
+    flex-direction: row;
+    width: 250px;
+    height: 200px;
     overflow: hidden;
 }
 
 .Content {
     display: flex;
+    flex-direction: column-reverse;
+    animation: roll 0.75s linear;
+    margin-top: -450px; /* Ajuste de la posición inicial */
+}
+
+.PrevContent {
+    display: flex;
     flex-direction: column;
-    animation: roll 5s linear;
+}
+
+.roll {
+    animation: roll 0.75s linear;
 }
 
 @keyframes roll {
     0% {
-        transform: translateY(-450px);
+        margin-top: 0; /* Ajuste para mostrar los últimos elementos */
     }
     100% {
-        transform: translateY(0);
+        margin-top: -450px; /* Ajuste para ocultar los primeros elementos */
     }
 }
