@@ -1,123 +1,111 @@
 import { useState } from 'react';
-import javascript from '../../images/JavascriptIcon.png';
-import css from '../../images/css-3.png';
-import html from '../../images/html-5.png';
-import gmail from '../../images/GmailIcon.png';
-import linkedin from '../../images/LinkedinIcon.png';
-import node from '../../images/NodejsIcon.png';
-import react from '../../images/ReactIcon.png';
-import redux from '../../images/ReduxIcon.png';
-import whatsapp from '../../images/WhatsappIcon.png';
-import postgresIcon from '../../images/PostgresIcon.png';
+import billetes from '../../images/billetes.png';
+import campanas from '../../images/campanas.png';
+import chanchito from '../../images/chanchito.png';
+import copa from '../../images/copa.png';
+import diamante from '../../images/diamante.png';
+import frutillas from '../../images/frutillas.png';
+import limones from '../../images/limones.png';
+import monedas from '../../images/monedas.png';
+import siete from '../../images/siete.png';
+import trebol from '../../images/trebol.png';
 import expressIcon from '../../images/ExpressIcon.png';
 const urlBack = import.meta.env.VITE_URLBACK;
 import './spin.css';
 import axios from 'axios';
 
 const Spin = () => {
-    const images = [javascript, css, html, gmail, linkedin, node, react, redux, whatsapp, postgresIcon, expressIcon];
+    const images = [billetes, campanas, chanchito, copa, diamante, frutillas, limones, monedas, siete, trebol, expressIcon];
     const [random, setRandom] = useState({
         primero: [10, 10, 10],
         segundo: [10, 10, 10],
         tercero: [10, 10, 10],
         cuarto: [10, 10, 10],
         quinto: [10, 10, 10],
-    })
-    const [prevRandom, setPrevRandom] = useState({
-        primero: [10, 10, 10],
-        segundo: [10, 10, 10],
-        tercero: [10, 10, 10],
-        cuarto: [10, 10, 10],
-        quinto: [10, 10, 10],
-    })
+    });
     const [animate, setAnimate] = useState(false);
-    const [rolling, setRolling] = useState(false)
+
     const randomHandle = async () => {
         try {
             const response = await axios.get(`${urlBack}/random1`);
 
             setRandom({
-                primero: [...prevRandom.primero, ...response.data.primero],
-                segundo: [...prevRandom.segundo, ...response.data.segundo],
-                tercero: [...prevRandom.tercero, ...response.data.tercero],
-                cuarto: [...prevRandom.cuarto, ...response.data.cuarto],
-                quinto: [...prevRandom.quinto, ...response.data.quinto],
+                primero: [...random.primero.slice(-3), ...response.data.primero],
+                segundo: [...random.segundo.slice(-3), ...response.data.segundo],
+                tercero: [...random.tercero.slice(-3), ...response.data.tercero],
+                cuarto: [...random.cuarto.slice(-3), ...response.data.cuarto],
+                quinto: [...random.quinto.slice(-3), ...response.data.quinto],
             });
-            setPrevRandom({
-                primero: [10, 10, 10],
-                segundo: [10, 10, 10],
-                tercero: [10, 10, 10],
-                cuarto: [10, 10, 10],
-                quinto: [10, 10, 10],
-            })
-            setAnimate(false);  // Reset animation
-            setTimeout(() => setAnimate(true), 0);  // Restart animation
-            console.log(random.primero)
+
+            // Reset animation state to trigger reflow
+            setAnimate(false);
+            setTimeout(() => setAnimate(true), 0);
         } catch (error) {
             console.error('Error al obtener el random1:', error);
         }
     };
+
     return (
         <div>
             <h2>Estás en Spin</h2>
             <div className='Container'>
-                {random && random.primero && (
-                    <div className='Content'>
+                {random.primero && (
+                    <div className={animate ? 'Content1' : 'Content'}>
                         {random.primero.map((num, index) => (
-                                <img 
-                                    key={index} 
-                                    src={images[num]} 
-                                    style={{ width: '50px' }} 
-                                    alt={`Imagen ${num}`} 
-                                />
+                            <img 
+                                key={index} 
+                                src={images[num]} 
+                                style={{ width: '50px' }} 
+                                alt={`Imagen ${num}`} 
+                            />
                         ))}
                     </div>
                 )}
-                {random && random.segundo && (
-                    <div className='Content'>
+                {random.segundo && (
+                    <div className={animate ? 'Content1' : 'Content'}>
                         {random.segundo.map((num, index) => (
-                                <img 
-                                    key={index} 
-                                    src={images[num]} 
-                                    style={{ width: '50px' }} 
-                                    alt={`Imagen ${num}`} 
-                                />
+                            <img 
+                                key={index} 
+                                src={images[num]} 
+                                style={{ width: '50px' }} 
+                                alt={`Imagen ${num}`} 
+                            />
                         ))}
                     </div>
                 )}
-                {random && random.tercero && (
-                    <div className='Content'>
+                {random.tercero && (
+                    <div className={animate ? 'Content1' : 'Content'}>
                         {random.tercero.map((num, index) => (
-                                <img 
-                                    key={index} 
-                                    src={images[num]} 
-                                    style={{ width: '50px' }} 
-                                    alt={`Imagen ${num}`} 
-                                />
+                            <img 
+                                key={index} 
+                                src={images[num]} 
+                                style={{ width: '50px' }} 
+                                alt={`Imagen ${num}`} 
+                            />
                         ))}
                     </div>
                 )}
-                {random && random.cuarto && (
-                    <div className='Content'>
+                {random.cuarto && (
+                    <div className={animate ? 'Content1' : 'Content'}>
                         {random.cuarto.map((num, index) => (
-                                <img 
-                                    key={index} 
-                                    src={images[num]} 
-                                    style={{ width: '50px' }} 
-                                    alt={`Imagen ${num}`} 
-                                />
+                            <img 
+                                key={index} 
+                                src={images[num]} 
+                                style={{ width: '50px' }} 
+                                alt={`Imagen ${num}`} 
+                            />
                         ))}
                     </div>
                 )}
-                {random && random.quinto && (
-                    <div className='Content'>
+                {random.quinto && (
+                    <div className={animate ? 'Content1' : 'Content'}>
                         {random.quinto.map((num, index) => (
-                                <img 
-                                    key={index} 
-                                    src={images[num]} 
-                                    style={{ width: '50px' }} 
-                                    alt={`Imagen ${num}`} 
-                                />
+                            <img 
+                                key={index} 
+                                src={images[num]} 
+                                style={{ width: '50px' }} 
+                                alt={`Imagen ${num}`} 
+                            />
                         ))}
                     </div>
                 )}

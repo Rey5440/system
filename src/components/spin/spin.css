@@ -2,31 +2,50 @@
     display: flex;
     flex-direction: row;
     width: 250px;
-    height: 200px;
+    height: 150px;
     overflow: hidden;
 }
 
 .Content {
     display: flex;
     flex-direction: column-reverse;
-    animation: roll 0.75s linear;
-    margin-top: -450px; /* Ajuste de la posición inicial */
+    margin-top: 0px; /* Ajuste de la posición inicial */
+    animation: roll 0.3s linear; /* Aplicar la animación directamente */
+}
+
+@keyframes roll {
+    0% {
+        margin-bottom: 100%; /* Ajuste para mostrar los últimos elementos */
+    }
+    100% {
+        margin-bottom: 0%; /* Ajuste para ocultar los primeros elementos */
+    }
+}
+
+.Content1 {
+    display: flex;
+    flex-direction: column-reverse;
+    margin-top: 0px;
+    /* transform: translateY(100%); */ /* Empieza mostrando los últimos elementos */
+    animation: roll1 1s linear forwards; /* Ajusta la duración según sea necesario */
+}
+
+@keyframes roll1 {
+    /* 0% {
+        transform: translateY(0%);
+    }
+    100% {
+        transform: translateY(200%);
+    } */
+    0% {
+        margin-bottom: 0%; /* Ajuste para mostrar los últimos elementos */
+    }
+    100% {
+        margin-bottom: -1500px; /* Ajuste para ocultar los primeros elementos */
+    }
 }
 
 .PrevContent {
     display: flex;
     flex-direction: column;
-}
-
-.roll {
-    animation: roll 0.75s linear;
-}
-
-@keyframes roll {
-    0% {
-        margin-top: 0; /* Ajuste para mostrar los últimos elementos */
-    }
-    100% {
-        margin-top: -450px; /* Ajuste para ocultar los primeros elementos */
-    }
 }
