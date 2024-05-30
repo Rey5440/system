@@ -24,8 +24,10 @@ const Spin = () => {
         quinto: [10, 10, 10],
     });
     const [animate, setAnimate] = useState(false);
+    const [ready, setReady] = useState(true);
 
     const randomHandle = async () => {
+        setReady(false);
         try {
             const response = await axios.get(`${urlBack}/random1`);
 
@@ -37,11 +39,13 @@ const Spin = () => {
                 quinto: [...random.quinto.slice(-3), ...response.data.quinto],
             });
 
-            // Reset animation state to trigger reflow
+            // Toggle animation state
             setAnimate(false);
-            setTimeout(() => setAnimate(true), 0);
+            setTimeout(() => setAnimate(true), 50); // Small delay to ensure reflow
         } catch (error) {
             console.error('Error al obtener el random1:', error);
+        } finally {
+            setTimeout(() => setReady(true), 1100); // Ensuring the animation duration is considered
         }
     };
 
@@ -110,7 +114,7 @@ const Spin = () => {
                     </div>
                 )}
             </div>
-            <button onClick={randomHandle}>Girar</button>
+            <button onClick={randomHandle} disabled={!ready}>Girar</button>
         </div>
     );
 }
