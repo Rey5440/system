@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import billetes from '../../images/billetes.png';
 import campanas from '../../images/campanas.png';
 import chanchito from '../../images/chanchito.png';
@@ -17,50 +17,58 @@ import axios from 'axios';
 const Spin = () => {
     const images = [billetes, campanas, chanchito, copa, diamante, frutillas, limones, monedas, siete, trebol, expressIcon];
     const [random, setRandom] = useState({
-        primero: [10, 10, 10],
-        segundo: [10, 10, 10],
-        tercero: [10, 10, 10],
-        cuarto: [10, 10, 10],
-        quinto: [10, 10, 10],
+        primero: [10, 10, 10, 10],
+        segundo: [10, 10, 10, 10],
+        tercero: [10, 10, 10, 10],
+        cuarto: [10, 10, 10, 10],
+        quinto: [10, 10, 10, 10],
     });
     const [animate, setAnimate] = useState(false);
     const [ready, setReady] = useState(true);
+    const [selectedValue, setSelectedValue] = useState('');
+
 
     const randomHandle = async () => {
-        setReady(false);
         try {
-            const response = await axios.get(`${urlBack}/random1`);
+            const response = await axios.post(`${urlBack}/random1`, {value: selectedValue});
 
             setRandom({
-                primero: [...random.primero.slice(-3), ...response.data.primero],
-                segundo: [...random.segundo.slice(-3), ...response.data.segundo],
-                tercero: [...random.tercero.slice(-3), ...response.data.tercero],
-                cuarto: [...random.cuarto.slice(-3), ...response.data.cuarto],
-                quinto: [...random.quinto.slice(-3), ...response.data.quinto],
+                primero: [...random.primero.slice(-4), ...response.data.primero],
+                segundo: [...random.segundo.slice(-4), ...response.data.segundo],
+                tercero: [...random.tercero.slice(-4), ...response.data.tercero],
+                cuarto: [...random.cuarto.slice(-4), ...response.data.cuarto],
+                quinto: [...random.quinto.slice(-4), ...response.data.quinto],
             });
 
-            // Toggle animation state
-            setAnimate(false);
-            setTimeout(() => setAnimate(true), 50); // Small delay to ensure reflow
+            // Reset animation state to trigger reflow
+            setTimeout(() => setAnimate(true), 0);
+            setAnimate(false)
+            setReady(false)
+
         } catch (error) {
             console.error('Error al obtener el random1:', error);
-        } finally {
-            setTimeout(() => setReady(true), 1100); // Ensuring the animation duration is considered
         }
+        setTimeout(() => setReady(true), 1000);
+    };
+
+
+    const handleChange = (event) => {
+        setSelectedValue(event.target.value);
     };
 
     return (
         <div>
+            <script src="https://accounts.google.com/gsi/client" async defer></script>
             <h2>Estás en Spin</h2>
             <div className='Container'>
                 {random.primero && (
                     <div className={animate ? 'Content1' : 'Content'}>
                         {random.primero.map((num, index) => (
-                            <img 
-                                key={index} 
-                                src={images[num]} 
-                                style={{ width: '50px' }} 
-                                alt={`Imagen ${num}`} 
+                            <img
+                                key={index}
+                                src={images[num]}
+                                style={{ width: '50px' }}
+                                alt={`Imagen ${num}`}
                             />
                         ))}
                     </div>
@@ -68,11 +76,11 @@ const Spin = () => {
                 {random.segundo && (
                     <div className={animate ? 'Content1' : 'Content'}>
                         {random.segundo.map((num, index) => (
-                            <img 
-                                key={index} 
-                                src={images[num]} 
-                                style={{ width: '50px' }} 
-                                alt={`Imagen ${num}`} 
+                            <img
+                                key={index}
+                                src={images[num]}
+                                style={{ width: '50px' }}
+                                alt={`Imagen ${num}`}
                             />
                         ))}
                     </div>
@@ -80,11 +88,11 @@ const Spin = () => {
                 {random.tercero && (
                     <div className={animate ? 'Content1' : 'Content'}>
                         {random.tercero.map((num, index) => (
-                            <img 
-                                key={index} 
-                                src={images[num]} 
-                                style={{ width: '50px' }} 
-                                alt={`Imagen ${num}`} 
+                            <img
+                                key={index}
+                                src={images[num]}
+                                style={{ width: '50px' }}
+                                alt={`Imagen ${num}`}
                             />
                         ))}
                     </div>
@@ -92,11 +100,11 @@ const Spin = () => {
                 {random.cuarto && (
                     <div className={animate ? 'Content1' : 'Content'}>
                         {random.cuarto.map((num, index) => (
-                            <img 
-                                key={index} 
-                                src={images[num]} 
-                                style={{ width: '50px' }} 
-                                alt={`Imagen ${num}`} 
+                            <img
+                                key={index}
+                                src={images[num]}
+                                style={{ width: '50px' }}
+                                alt={`Imagen ${num}`}
                             />
                         ))}
                     </div>
@@ -104,17 +112,31 @@ const Spin = () => {
                 {random.quinto && (
                     <div className={animate ? 'Content1' : 'Content'}>
                         {random.quinto.map((num, index) => (
-                            <img 
-                                key={index} 
-                                src={images[num]} 
-                                style={{ width: '50px' }} 
-                                alt={`Imagen ${num}`} 
+                            <img
+                                key={index}
+                                src={images[num]}
+                                style={{ width: '50px' }}
+                                alt={`Imagen ${num}`}
                             />
                         ))}
                     </div>
                 )}
             </div>
-            <button onClick={randomHandle} disabled={!ready}>Girar</button>
+
+            <button onClick={randomHandle} disabled={!ready || selectedValue == ''}>Girar</button>
+            <div>
+                <select value={selectedValue} onChange={handleChange}>
+                    <option value="" disabled hidden>Elija un valor</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                    <option value="500">500</option>
+                    <option value="1000">1000</option>
+                </select>
+                <p>El valor seleccionado es: {selectedValue}</p>
+            </div>
         </div>
     );
 }
